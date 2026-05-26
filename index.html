@@ -1,0 +1,1915 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kochpruefung Saarland - GAP 1 & AP 2 Lernportal</title>
+  <style>
+    :root {
+      --ink: #171717;
+      --muted: #6b6f76;
+      --paper: #f5f6f8;
+      --panel: rgba(255, 255, 255, .68);
+      --line: rgba(23, 23, 23, .1);
+      --brand: #b84a2f;
+      --brand-dark: #74301f;
+      --gold: #c8943e;
+      --herb: #607a58;
+      --wine: #8f3f52;
+      --cream: #f4eee5;
+      --glass: rgba(255, 255, 255, .58);
+      --glass-strong: rgba(255, 255, 255, .78);
+      --shadow: 0 24px 70px rgba(29, 35, 43, .13);
+      --soft-shadow: 0 14px 40px rgba(29, 35, 43, .09);
+      --radius: 8px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(120deg, rgba(255, 255, 255, .98), rgba(241, 243, 247, .9) 38%, rgba(238, 242, 239, .95)),
+        linear-gradient(180deg, #ffffff 0%, #eef1f5 100%);
+      line-height: 1.55;
+    }
+
+    a { color: inherit; }
+    button, input { font: inherit; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(255, 255, 255, .58);
+      background: rgba(246, 247, 249, .62);
+      backdrop-filter: blur(26px) saturate(1.55);
+      -webkit-backdrop-filter: blur(26px) saturate(1.55);
+    }
+
+    .header-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      min-height: 88px;
+      padding: 12px 20px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        "brand menu"
+        "nav nav";
+      gap: 10px 16px;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 780;
+      letter-spacing: 0;
+      text-decoration: none;
+      min-width: 0;
+      color: rgba(23, 23, 23, .88);
+      grid-area: brand;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, .94), rgba(232, 235, 239, .74));
+      color: var(--brand);
+      border: 1px solid rgba(255, 255, 255, .78);
+      box-shadow: 0 8px 24px rgba(20, 25, 32, .1), inset 0 1px 0 rgba(255, 255, 255, .9);
+      flex: 0 0 auto;
+    }
+
+    .brand span:last-child {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .top-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+      scrollbar-width: none;
+      justify-self: center;
+      grid-area: nav;
+      max-width: min(1080px, calc(100vw - 40px));
+      padding: 5px;
+      border: 1px solid rgba(255, 255, 255, .76);
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .72), rgba(239, 242, 246, .5));
+      box-shadow: 0 16px 42px rgba(20, 25, 32, .12), inset 0 1px 0 rgba(255, 255, 255, .94);
+      backdrop-filter: blur(24px) saturate(1.55);
+      -webkit-backdrop-filter: blur(24px) saturate(1.55);
+    }
+
+    .top-nav::-webkit-scrollbar { display: none; }
+
+    .nav-chip,
+    .card-action {
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--ink);
+      border-radius: 999px;
+      min-height: 40px;
+      padding: 9px 15px;
+      cursor: pointer;
+      transition: transform .16s ease, background .16s ease, border-color .16s ease, box-shadow .16s ease, color .16s ease;
+      white-space: nowrap;
+    }
+
+    .nav-chip {
+      min-height: 34px;
+      padding: 7px 11px;
+      color: rgba(23, 23, 23, .68);
+      font-size: .86rem;
+      font-weight: 650;
+    }
+
+    .card-action {
+      border-color: rgba(255, 255, 255, .78);
+      background: rgba(255, 255, 255, .68);
+      box-shadow: var(--soft-shadow), inset 0 1px 0 rgba(255, 255, 255, .9);
+      backdrop-filter: blur(18px) saturate(1.25);
+      -webkit-backdrop-filter: blur(18px) saturate(1.25);
+      font-weight: 650;
+    }
+
+    .nav-chip:hover,
+    .card-action:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, .72);
+      border-color: rgba(255, 255, 255, .88);
+      box-shadow: 0 10px 24px rgba(20, 25, 32, .08);
+    }
+
+    .nav-chip.active {
+      color: #111;
+      background: rgba(255, 255, 255, .86);
+      border-color: rgba(184, 74, 47, .28);
+      box-shadow:
+        0 12px 26px rgba(20, 25, 32, .12),
+        inset 0 1px 0 rgba(255, 255, 255, .98),
+        inset 0 0 0 1px rgba(255, 255, 255, .64);
+    }
+
+    .menu-toggle {
+      display: none;
+      border: 1px solid rgba(255, 255, 255, .78);
+      background: var(--glass-strong);
+      border-radius: 999px;
+      width: 42px;
+      height: 42px;
+      cursor: pointer;
+      box-shadow: var(--soft-shadow);
+      grid-area: menu;
+      justify-self: end;
+    }
+
+    .header-actions {
+      position: absolute;
+      top: 12px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 45;
+    }
+
+    .search-toggle {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255, 255, 255, .78);
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      background: rgba(255, 255, 255, .68);
+      box-shadow: var(--soft-shadow), inset 0 1px 0 rgba(255, 255, 255, .9);
+      backdrop-filter: blur(18px) saturate(1.25);
+      -webkit-backdrop-filter: blur(18px) saturate(1.25);
+      cursor: pointer;
+      transition: transform .16s ease, background .16s ease, box-shadow .16s ease;
+    }
+
+    .search-toggle:hover,
+    .search-toggle[aria-expanded="true"] {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, .86);
+      box-shadow: 0 12px 26px rgba(20, 25, 32, .12), inset 0 1px 0 rgba(255, 255, 255, .95);
+    }
+
+    .header-search {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: min(460px, calc(100vw - 28px));
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-6px) scale(.98);
+      transform-origin: top right;
+      transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+      z-index: 40;
+    }
+
+    .header-search.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .header-search .search-wrap {
+      display: block;
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    #searchInput {
+      width: 100%;
+      min-height: 52px;
+      border: 1px solid rgba(255, 255, 255, .8);
+      border-radius: var(--radius);
+      padding: 13px 16px 13px 48px;
+      background: rgba(255, 255, 255, .74);
+      color: var(--ink);
+      outline: none;
+      box-shadow: var(--soft-shadow), inset 0 1px 0 rgba(255, 255, 255, .95);
+      backdrop-filter: blur(18px) saturate(1.3);
+      -webkit-backdrop-filter: blur(18px) saturate(1.3);
+    }
+
+    #searchInput:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 4px rgba(184, 74, 47, .12), var(--soft-shadow);
+    }
+
+    main {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 20px 20px 70px;
+    }
+
+    .layout {
+      display: block;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(20px) saturate(1.35);
+      -webkit-backdrop-filter: blur(20px) saturate(1.35);
+    }
+
+    .panel-pad { padding: 16px; }
+
+    .section-kicker {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .content-stream {
+      display: grid;
+      gap: 16px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 4px 0 2px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.45rem, 2vw, 2.1rem);
+      line-height: 1.1;
+    }
+
+    .result-count {
+      color: var(--muted);
+      font-size: .95rem;
+      white-space: nowrap;
+    }
+
+    .accordion {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--glass);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+      backdrop-filter: blur(22px) saturate(1.35);
+      -webkit-backdrop-filter: blur(22px) saturate(1.35);
+    }
+
+    .accordion summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .accordion summary::-webkit-details-marker { display: none; }
+
+    .summary-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, .7);
+      color: var(--brand-dark);
+      border: 1px solid rgba(255, 255, 255, .86);
+      flex: 0 0 auto;
+    }
+
+    .summary-title h3 {
+      margin: 0;
+      font-size: 1.08rem;
+      line-height: 1.25;
+    }
+
+    .tagline {
+      color: var(--muted);
+      font-size: .93rem;
+      margin-top: 3px;
+    }
+
+    .chevron {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, .68);
+      color: var(--brand);
+      transition: transform .18s ease;
+    }
+
+    details[open] .chevron { transform: rotate(180deg); }
+
+    .accordion-body {
+      padding: 0 20px 20px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      border: 1px solid rgba(156, 63, 34, .2);
+      background: rgba(255, 255, 255, .64);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: .88rem;
+      color: #604736;
+    }
+
+    .knowledge-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .mini-card {
+      border: 1px solid rgba(23, 23, 23, .08);
+      border-radius: 8px;
+      padding: 14px;
+      background: rgba(255, 255, 255, .62);
+      min-width: 0;
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--brand-dark);
+    }
+
+    .mini-card p,
+    .mini-card ul { margin: 0; color: #58463a; }
+    .mini-card ul { padding-left: 18px; }
+
+    .glossary-term {
+      position: relative;
+      color: var(--brand-dark);
+      font-weight: 760;
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(156, 63, 34, .55);
+      cursor: help;
+    }
+
+    .glossary-term::after {
+      content: attr(data-def);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 9px);
+      width: min(280px, 72vw);
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: #2b211b;
+      color: #fff7eb;
+      box-shadow: 0 14px 34px rgba(43, 33, 27, .24);
+      font-size: .86rem;
+      font-weight: 600;
+      line-height: 1.35;
+      transform: translateX(-50%) translateY(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .14s ease, transform .14s ease;
+      z-index: 30;
+    }
+
+    .glossary-term::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 3px);
+      border: 6px solid transparent;
+      border-top-color: #2b211b;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity .14s ease;
+      z-index: 31;
+    }
+
+    .glossary-term:hover::after,
+    .glossary-term:focus-visible::after,
+    .glossary-term:hover::before,
+    .glossary-term:focus-visible::before {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .glossary-section {
+      margin-top: 28px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .glossary-toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .glossary-search {
+      min-height: 44px;
+      border: 1px solid rgba(255, 255, 255, .78);
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, .72);
+      color: var(--ink);
+      outline: none;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .glossary-search:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 4px rgba(156, 63, 34, .12);
+    }
+
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .glossary-entry {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--glass);
+      padding: 14px;
+      scroll-margin-top: 90px;
+      transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+      backdrop-filter: blur(20px) saturate(1.3);
+      -webkit-backdrop-filter: blur(20px) saturate(1.3);
+    }
+
+    .glossary-entry.active {
+      background: #fff4dc;
+      border-color: var(--gold);
+      box-shadow: 0 14px 32px rgba(197, 139, 42, .2);
+      transform: translateY(-1px);
+    }
+
+    .glossary-entry h3 {
+      margin: 0 0 6px;
+      font-size: 1.02rem;
+      color: var(--brand-dark);
+    }
+
+    .glossary-entry p {
+      margin: 0;
+      color: #58463a;
+    }
+
+    .glossary-empty {
+      border: 1px dashed rgba(156, 63, 34, .38);
+      border-radius: 8px;
+      padding: 16px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, .7);
+    }
+
+    mark {
+      background: #ffe08a;
+      color: inherit;
+      border-radius: 4px;
+      padding: 0 2px;
+    }
+
+    .flash-section {
+      margin-top: 22px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .flash-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .select {
+      min-height: 40px;
+      border: 1px solid rgba(255, 255, 255, .78);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .72);
+      padding: 8px 12px;
+      color: var(--ink);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .flash-card {
+      position: relative;
+      min-height: 260px;
+      perspective: 1200px;
+    }
+
+    .flash-inner {
+      position: absolute;
+      inset: 0;
+      transition: transform .48s ease;
+      transform-style: preserve-3d;
+    }
+
+    .flash-card.flipped .flash-inner { transform: rotateY(180deg); }
+
+    .flash-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(255, 255, 255, .82), rgba(246, 239, 230, .68));
+      box-shadow: var(--shadow);
+      padding: clamp(20px, 4vw, 34px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .flash-face.back {
+      transform: rotateY(180deg);
+      background: linear-gradient(145deg, rgba(255, 255, 255, .84), rgba(234, 242, 234, .72));
+    }
+
+    .flash-label {
+      color: var(--brand);
+      font-size: .8rem;
+      font-weight: 850;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .flash-text {
+      font-size: clamp(1.28rem, 2.5vw, 2rem);
+      line-height: 1.25;
+      margin: 0;
+      max-width: 32ch;
+    }
+
+    .flash-answer {
+      margin: 0;
+      color: #4f443d;
+      font-size: clamp(1.04rem, 1.5vw, 1.18rem);
+      max-width: 62ch;
+    }
+
+    .footer {
+      margin-top: 36px;
+      padding: 22px 0 0;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .empty-state {
+      border: 1px dashed rgba(156, 63, 34, .38);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .62);
+      padding: 24px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 920px) {
+      .header-inner {
+        grid-template-columns: 1fr auto;
+        min-height: 66px;
+      }
+
+      .top-nav {
+        grid-column: 1 / -1;
+        justify-content: start;
+        justify-self: stretch;
+        max-width: 100%;
+        display: none;
+      }
+
+      .top-nav.open { display: flex; }
+      .menu-toggle { display: grid; place-items: center; }
+      .header-actions { right: 14px; }
+
+      .layout { display: block; }
+    }
+
+    @media (max-width: 650px) {
+      .header-inner,
+      main { padding-left: 14px; padding-right: 14px; }
+
+      .brand span:last-child { max-width: 210px; }
+      .knowledge-grid { grid-template-columns: 1fr; }
+      .glossary-grid { grid-template-columns: 1fr; }
+      .glossary-toolbar { grid-template-columns: 1fr; }
+      .accordion summary { padding: 15px; }
+      .accordion-body { padding: 0 15px 15px; }
+      .summary-title { align-items: start; }
+      .icon { width: 36px; height: 36px; }
+      .flash-card { min-height: 330px; }
+      .section-head { align-items: start; flex-direction: column; gap: 4px; }
+      .result-count { white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <nav class="top-nav" id="topNav" aria-label="Hauptnavigation"></nav>
+      <div class="header-actions">
+        <button class="search-toggle" id="searchToggle" type="button" aria-label="Suche oeffnen" aria-expanded="false" aria-controls="headerSearch" title="Suche">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+          </svg>
+        </button>
+        <div class="header-search" id="headerSearch">
+          <label class="search-wrap" for="searchInput">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="m21 21-4.35-4.35M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <input id="searchInput" type="search" placeholder="Alle Inhalte durchsuchen..." autocomplete="off">
+          </label>
+        </div>
+        <button class="menu-toggle" id="menuToggle" aria-label="Menue oeffnen" title="Menue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="layout">
+      <div>
+        <section class="content-stream" aria-live="polite">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Lerninhalte</p>
+              <h2 id="contentTitle">Alle Themen</h2>
+            </div>
+            <span class="result-count" id="resultCount"></span>
+          </div>
+          <div id="content"></div>
+        </section>
+
+        <section class="flash-section" id="karten">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Selbstabfrage</p>
+              <h2>Karteikarten</h2>
+            </div>
+            <div class="flash-controls">
+              <select class="select" id="cardCategory" aria-label="Karteikarten-Kategorie"></select>
+              <button class="card-action" id="shuffleCard" type="button">Neue Karte</button>
+              <button class="card-action" id="flipCard" type="button">Umdrehen</button>
+            </div>
+          </div>
+          <div class="flash-card" id="flashCard" tabindex="0" role="button" aria-label="Karteikarte umdrehen">
+            <div class="flash-inner">
+              <div class="flash-face front">
+                <span class="flash-label" id="frontLabel">Frage</span>
+                <p class="flash-text" id="cardQuestion"></p>
+                <span class="tagline">Tippe oder klicke auf die Karte, um die Antwort zu sehen.</span>
+              </div>
+              <div class="flash-face back">
+                <span class="flash-label">Antwort</span>
+                <p class="flash-answer" id="cardAnswer"></p>
+                <span class="tagline">Noch einmal klicken fuer die Frage.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="glossary-section" id="fachwoerter">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Nachschlagen</p>
+              <h2>Fachwoerterverzeichnis</h2>
+            </div>
+            <div class="glossary-toolbar">
+              <input class="glossary-search" id="glossarySearch" type="search" placeholder="Fachwort suchen, z. B. Roux, CCP, Julienne..." autocomplete="off">
+              <button class="card-action" id="clearGlossaryHighlight" type="button">Markierung loeschen</button>
+            </div>
+          </div>
+          <div class="glossary-grid" id="glossaryList"></div>
+        </section>
+
+        <footer class="footer">
+          Eigenstaendig formulierte Lernhilfe, keine Reproduktion eines Lehrbuchs. Nutze zusaetzlich Ausbildungsrahmenplan, Berichtsheft, Berufsschulunterlagen, IHK-Einladung und betriebliche Standards.
+        </footer>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const categories = [
+      {
+        id: "warenkunde",
+        name: "Warenkunde",
+        icon: "🥩",
+        intro: "Lebensmittel erkennen, Qualitaet beurteilen, lagern und passend verarbeiten.",
+        topics: [
+          {
+            title: "Fleisch",
+            subtitle: "Teilstuecke, Reifung, Qualitaet, Gargrad",
+            tags: ["Rind", "Kalb", "Schwein", "Gefluegel", "Wild"],
+            blocks: [
+              ["Qualitaetsmerkmale", "Frische Fleischfarbe, neutraler Geruch, elastische Struktur, trockene Schnittflaeche und passende Marmorierung. Vakuumfleisch vor Verwendung auslueften und Geruch beurteilen."],
+              ["Pruefungswissen", "Bindegewebsreiche Stuecke eignen sich fuer lange feuchte Garverfahren wie Schmoren; zarte Stuecke fuer Kurzbraten. Kerntemperaturen, Ruhezeiten und Kreuzkontamination sind haeufige Pruefungsthemen."],
+              ["Beispiele", "Rind: Filet, Roastbeef, Schulter, Brust. Schwein: Ruecken, Nacken, Bauch. Gefluegel: Brust, Keule, Karkasse fuer Fonds."]
+            ]
+          },
+          {
+            title: "Fisch und Meeresfruechte",
+            subtitle: "Frischezeichen und sichere Verarbeitung",
+            tags: ["Frische", "Filetieren", "Fonds", "Allergene"],
+            blocks: [
+              ["Frischezeichen", "Klare Augen, rote Kiemen, feste Schleimschicht, frischer Meer- oder Wassergeruch, festes Fleisch. Fisch gehoert sofort in die Kuehlung und wird getrennt von verzehrfertigen Speisen bearbeitet."],
+              ["Garung", "Schonende Methoden wie Pochieren, Daempfen und Duennen erhalten Saftigkeit. Fettfische wie Lachs vertragen kraeftigere Hitze, magere Fische trocknen schneller aus."],
+              ["Pruefungstipp", "Karkassen und Graeten fuer Fischfond nur kurz ausziehen, sonst werden Bitterstoffe geloest."]
+            ]
+          },
+          {
+            title: "Gemuese, Obst und Kraeuter",
+            subtitle: "Saison, Vorbereitung, Schnitt und Garung",
+            tags: ["Saison", "Mise en Place", "Blanchieren", "Regional"],
+            blocks: [
+              ["Gemuesegruppen", "Wurzelgemuese, Blattgemuese, Kohlgemuese, Fruchtgemuese, Zwiebelgemuese und Huelsenfruechte unterscheiden sich in Lagerung, Garzeit und Vorbereitung."],
+              ["Obst", "Kernobst, Steinobst, Beerenobst, Zitrusfruechte und Suedfruechte. Reifegrad, Saeure, Pektin und Oxidation sind wichtig fuer Desserts, Salate und Saucen."],
+              ["Saarland-Bezug", "Regionale Produkte wie Kartoffeln, Kohl, Aepfel, Kraeuter, Wild und Wein aus Mosel/Saar/Ruwer koennen in Menueplanung und Warenkunde sinnvoll auftauchen."]
+            ]
+          },
+          {
+            title: "Gewuerze, Milchprodukte und Getreide",
+            subtitle: "Aroma, Bindung, Teige und Saettigungsbeilagen",
+            tags: ["Kraeuter", "Kaese", "Sahne", "Reis", "Mehl"],
+            blocks: [
+              ["Gewuerze", "Ganze Gewuerze bleiben laenger aromatisch als gemahlene. Roesten, Moersern und spaetes Abschmecken entscheiden ueber Intensitaet. Salz ist kein Gewuerz, sondern ein Mineral."],
+              ["Milchprodukte", "Milch, Sahne, Butter, Quark, Joghurt und Kaese liefern Fett, Eiweiss, Wasser und Laktose. Bei Saeure und Hitze kann Eiweiss gerinnen."],
+              ["Getreide", "Weizen, Roggen, Dinkel, Hafer, Gerste, Reis und Mais liefern Staerke. Glutenbildung, Quellvermoegen und Staerkegelatinierung sind fuer Teige, Saucen und Beilagen wichtig."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "garmethoden",
+        name: "Garmethoden",
+        icon: "🔥",
+        intro: "Hitze, Medium und Garziel verstehen: trocken, feucht, kombiniert und schonend.",
+        topics: [
+          {
+            title: "Kochen, Pochieren, Blanchieren",
+            subtitle: "Feuchte Garverfahren sicher unterscheiden",
+            tags: ["Wasser", "Fond", "Temperatur", "Abschrecken"],
+            blocks: [
+              ["Kochen", "Garen in sprudelnder Fluessigkeit bei etwa 100 Grad Celsius. Geeignet fuer Teigwaren, Kartoffeln, Reis und kraeftige Fonds."],
+              ["Pochieren", "Garziehen unter dem Siedepunkt, meist 75 bis 90 Grad Celsius. Ideal fuer Eier, Fisch, Farcen und empfindliche Klopse."],
+              ["Blanchieren", "Kurzes Garen in kochendem Wasser, danach abschrecken. Zweck: Farbe fixieren, Enzyme inaktivieren, Keimzahl senken, Bitterstoffe mildern."]
+            ]
+          },
+          {
+            title: "Daempfen, Duennen, Schmoren",
+            subtitle: "Schonung, Eigengeschmack und Sauce",
+            tags: ["Dampf", "Eigenfluessigkeit", "Ansatz", "Sauce"],
+            blocks: [
+              ["Daempfen", "Garen im Wasserdampf ohne direkten Kontakt mit Fluessigkeit. Naehrstoffschonend und gut fuer Gemuese, Fisch, Kloesse."],
+              ["Duennen", "Garen in wenig Fett und eigener oder wenig zugegebener Fluessigkeit bei geschlossenem Deckel. Bewahrt Aroma und Saftigkeit."],
+              ["Schmoren", "Kombiniertes Verfahren: zuerst anbraten, dann mit wenig Fluessigkeit zugedeckt garen. Geeignet fuer bindegewebsreiche Stuecke und kraeftige Saucen."]
+            ]
+          },
+          {
+            title: "Braten, Grillen, Frittieren",
+            subtitle: "Trockenhitze, Roeststoffe und Fettmanagement",
+            tags: ["Maillard", "Rauchpunkt", "Kurzbraten", "Knusprigkeit"],
+            blocks: [
+              ["Braten", "Garen in Fett oder trockener Hitze. Ziel sind Roeststoffe, Farbe und Kruste. Gargut vorher trocken tupfen und Pfanne nicht ueberfuellen."],
+              ["Grillen", "Strahlungs- oder Kontakthitze mit hoher Temperatur. Marinaden mit Zucker verbrennen schneller, daher Hitze und Abstand steuern."],
+              ["Frittieren", "Garen schwimmend in Fett, meist 160 bis 180 Grad Celsius. Fett regelmaessig filtrieren, nicht ueberhitzen, Allergene und Produktwechsel beachten."]
+            ]
+          },
+          {
+            title: "Backen, Gratinieren, Regenerieren",
+            subtitle: "Ofenprozesse fuer Produktion und Service",
+            tags: ["Heissluft", "Oberhitze", "Kerntemperatur", "Cook & Chill"],
+            blocks: [
+              ["Backen", "Garen mit trockener Heissluft, oft mit Teiglockerung durch Hefe, Backpulver, Dampf oder eingeschlagene Luft."],
+              ["Gratinieren", "Kurzes Ueberbacken mit starker Oberhitze fuer Farbe, Kruste und Aroma. Gargut ist meist bereits gar."],
+              ["Regenerieren", "Wiedererwaermen vorgegarter Speisen. Wichtig sind Zeit-Temperatur-Steuerung, Sensorik und hygienische Sicherheit."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "schnitttechniken",
+        name: "Schnitttechniken",
+        icon: "🔪",
+        intro: "Gleichmaessige Schnitte sorgen fuer Optik, Garzeit und professionelle Arbeitsweise.",
+        topics: [
+          {
+            title: "Klassische Gemueseschnitte",
+            subtitle: "Julienne, Brunoise, Jardiniere und mehr",
+            tags: ["Julienne", "Brunoise", "Batonnet", "Paysanne"],
+            blocks: [
+              ["Julienne", "Feine Streifen, haeufig etwa 1 bis 2 mm stark und mehrere Zentimeter lang. Typisch fuer Suppeneinlagen und Garnituren."],
+              ["Brunoise", "Sehr kleine Wuerfel, meist aus Julienne geschnitten. Wichtig fuer klare Suppen, Saucen, Farcen und feine Garnituren."],
+              ["Weitere Schnitte", "Batonnet: Staebchen. Jardiniere: groessere Staebchen. Paysanne: duenne Blaettchen oder Plaettchen. Mirepoix: grobe Wuerfel fuer Fonds und Ansätze."]
+            ]
+          },
+          {
+            title: "Kraeuter und Zwiebeln",
+            subtitle: "Chiffonade, Hacken, Wiegen",
+            tags: ["Chiffonade", "Kraeuter", "Zwiebel", "Messerhaltung"],
+            blocks: [
+              ["Chiffonade", "Blattkraeuter oder Blattgemuese aufrollen und in feine Streifen schneiden. Geeignet fuer Basilikum, Minze, Salat, Spinat."],
+              ["Kraeuter", "Scharfes Messer verwenden, nicht zerquetschen. Kraeuter meist kurz vor Service schneiden, damit Aromen und Farbe erhalten bleiben."],
+              ["Sicherheit", "Krallengriff, stabile Unterlage, feuchtes Tuch unter dem Brett, klares Arbeitsplatzsystem fuer rohe und verzehrfertige Produkte."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "hygiene",
+        name: "Hygiene & HACCP",
+        icon: "🧼",
+        intro: "Lebensmittelsicherheit, Eigenkontrolle und dokumentierte Sauberkeit.",
+        topics: [
+          {
+            title: "HACCP-Grundlagen",
+            subtitle: "Gefahren erkennen und kritische Punkte kontrollieren",
+            tags: ["Gefahrenanalyse", "CCP", "Dokumentation", "Eigenkontrolle"],
+            blocks: [
+              ["Prinzip", "HACCP bedeutet, biologische, chemische und physikalische Gefahren im Prozess zu erkennen, zu bewerten, zu kontrollieren und zu dokumentieren."],
+              ["Beispiele", "Wareneingang, Kuehlung, Erhitzung, Warmhaltung, Rueckstellproben, Reinigung und Personalhygiene koennen pruefungsrelevante Kontrollpunkte sein."],
+              ["Dokumentation", "Messwerte, Abweichungen und Korrekturmassnahmen muessen nachvollziehbar sein. Nicht dokumentiert gilt im Zweifel als nicht erfolgt."]
+            ]
+          },
+          {
+            title: "Kuehlkette und Lagertemperaturen",
+            subtitle: "Temperaturzonen sicher anwenden",
+            tags: ["Kuehlung", "Tiefkuehlung", "Wareneingang", "FIFO"],
+            blocks: [
+              ["Grundregeln", "Kuehlpflichtige Lebensmittel sofort einraeumen, Temperatur pruefen, Verpackung und MHD kontrollieren. First in, first out und klare Beschriftung anwenden."],
+              ["Orientierungswerte", "Tiefkuehlware bei etwa -18 Grad Celsius lagern. Viele leicht verderbliche Lebensmittel gehoeren in den Bereich um 0 bis 7 Grad Celsius; betriebliche Vorgaben und Produktangaben beachten."],
+              ["Trennung", "Rohes Gefluegel, Fleisch, Fisch, Eier und verzehrfertige Speisen getrennt lagern und bearbeiten. Auftauflüssigkeit sicher entsorgen."]
+            ]
+          },
+          {
+            title: "Reinigung und Personalhygiene",
+            subtitle: "Plan, Mittel, Methode, Kontrolle",
+            tags: ["Reinigungsplan", "Desinfektion", "Handhygiene", "IfSG"],
+            blocks: [
+              ["Reinigungsplan", "Enthaelt Was, Wann, Womit, Wie, Wer und Kontrolle. Dosierung, Einwirkzeit und Materialvertraeglichkeit sind entscheidend."],
+              ["Personal", "Saubere Arbeitskleidung, bedeckte Haare, kein Schmuck an Haenden/Unterarmen, Wunden abdecken, Haende richtig waschen und desinfizieren."],
+              ["Infektionsschutz", "Bei Durchfall, Erbrechen, Fieber oder eitrigen Wunden nicht mit Lebensmitteln arbeiten und Vorgesetzte informieren."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "naehrwerte",
+        name: "Naehrwertlehre",
+        icon: "⚖️",
+        intro: "Ernaehrungslehre fuer Menueplanung, Gaestewunsch und Pruefungsfragen.",
+        topics: [
+          {
+            title: "Makronaehrstoffe",
+            subtitle: "Kohlenhydrate, Fett, Eiweiss",
+            tags: ["Energie", "Ballaststoffe", "Protein", "Fette"],
+            blocks: [
+              ["Kohlenhydrate", "Liefern Energie, kommen als Zucker, Staerke und Ballaststoffe vor. Ballaststoffe foerdern Saettigung und Verdauung."],
+              ["Eiweiss", "Wichtig fuer Aufbau und Erhalt von Koerpergewebe. Pflanzliche und tierische Proteine lassen sich sinnvoll kombinieren."],
+              ["Fett", "Traegt Aroma, liefert Energie und essenzielle Fettsaeuren. Ungesaettigte Fette gelten ernaehrungsphysiologisch meist guenstiger als viele gesaettigte Fette."]
+            ]
+          },
+          {
+            title: "Vitamine, Mineralstoffe, Allergene",
+            subtitle: "Schonung und Kennzeichnung",
+            tags: ["Vitamine", "Mineralstoffe", "Allergene", "Sonderkost"],
+            blocks: [
+              ["Vitamine", "Wasserloesliche Vitamine sind oft hitze- und auslaugempfindlich. Kurze Garzeiten, wenig Wasser und Daempfen koennen Verluste reduzieren."],
+              ["Mineralstoffe", "Calcium, Eisen, Jod, Natrium, Kalium und Magnesium sind typische Beispiele. Mineralstoffe sind nicht hitzeempfindlich, koennen aber ins Kochwasser uebergehen."],
+              ["Allergene", "Die 14 Hauptallergene muessen fuer Gaeste nachvollziehbar sein. Kreuzkontakt bei Nüssen, Gluten, Milch, Ei, Fisch, Sellerie und Senf beachten."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "geraete",
+        name: "Kuechengeraete",
+        icon: "🍳",
+        intro: "Werkzeuge, Maschinen und Sicherheit in Produktion und Service.",
+        topics: [
+          {
+            title: "Handwerkzeuge und Maschinen",
+            subtitle: "Richtig einsetzen und sicher reinigen",
+            tags: ["Messer", "Kutter", "Aufschnittmaschine", "Stabmixer"],
+            blocks: [
+              ["Messer", "Kochmesser, Ausbeinmesser, Filetiermesser, Tourniermesser, Brotmesser und Palette haben unterschiedliche Aufgaben. Scharfe Messer sind sicherer als stumpfe."],
+              ["Maschinen", "Kutter, Wolf, Aufschnittmaschine, Planetenruehrwerk und Thermogeraete nur nach Einweisung nutzen. Schutzvorrichtungen nie umgehen."],
+              ["Reinigung", "Vor Reinigung ausschalten, Netzstecker ziehen oder sichern, zerlegbare Teile hygienisch reinigen und komplett trocknen."]
+            ]
+          },
+          {
+            title: "Thermische Geraete",
+            subtitle: "Herd, Ofen, Kombidaempfer, Fritteuse",
+            tags: ["Kombidaempfer", "Fritteuse", "Induktion", "Kerntemperatur"],
+            blocks: [
+              ["Kombidaempfer", "Ermoeglicht Heissluft, Dampf und Kombination. Wichtig fuer Garen, Regenerieren, Niedertemperatur und Bankettproduktion."],
+              ["Fritteuse", "Temperatur, Fettqualitaet, Wasser- und Salzreste kontrollieren. Korb nicht ueberfuellen, Fettbrand niemals mit Wasser loeschen."],
+              ["Messgeraete", "Einstechthermometer, Waage, Refraktometer oder pH-Meter koennen fuer Sicherheit, Standardisierung und Qualitaet relevant sein."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "menuekunde",
+        name: "Menuekunde",
+        icon: "📋",
+        intro: "Speisenfolge, Balance und professionelle Angebotsplanung.",
+        topics: [
+          {
+            title: "Klassische Speisenfolge",
+            subtitle: "Vom leichten Einstieg bis zum Dessert",
+            tags: ["Vorspeise", "Suppe", "Hauptgang", "Dessert"],
+            blocks: [
+              ["Grundfolge", "Kalte oder warme Vorspeise, Suppe oder Zwischengericht, Hauptgericht, Kaese oder Dessert. Moderne Menues koennen reduzierter sein, sollen aber stimmig bleiben."],
+              ["Balance", "Achte auf Saison, Farbe, Textur, Saettigung, Temperatur, Garverfahren und Wiederholungen. Nicht dreimal Sahnesauce, nicht dreimal Frittiertes."],
+              ["Pruefungsplanung", "Arbeitsablauf, Mise en Place, Garzeiten, Anrichteweise, Allergene und Kalkulation sollten logisch zusammenpassen."]
+            ]
+          },
+          {
+            title: "Menue fuer die Pruefung",
+            subtitle: "Planen, begruenden, sauber ausfuehren",
+            tags: ["Arbeitsablaufplan", "Warenkorb", "Fachgespraech", "Anrichten"],
+            blocks: [
+              ["Arbeitsablaufplan", "Rueckwaerts vom Servicezeitpunkt planen. Kritische Schritte, Kuehlzeiten, Ruhezeiten und parallele Arbeiten sichtbar machen."],
+              ["Fachgespraech", "Begruende Garverfahren, Hygieneentscheidungen, Warenqualitaet, Naehrwerte, Allergene und Wirtschaftlichkeit."],
+              ["Anrichten", "Teller warm oder kalt passend waehlen, Rand sauber halten, Saucen gezielt setzen, Hauptkomponente klar sichtbar machen."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "franzoesisch",
+        name: "Deutsch / Franzoesisch",
+        icon: "🇫🇷",
+        intro: "Fachbegriffe im Grenzraum Saarland sicher verstehen.",
+        topics: [
+          {
+            title: "Kuechenbegriffe",
+            subtitle: "Haeufige Begriffe fuer Karte, Kueche und Service",
+            tags: ["Sauce", "Mise en Place", "Bouquet garni", "A la carte"],
+            blocks: [
+              ["Grundbegriffe", "Mise en place: Vorbereitung. Bouquet garni: Kraeuterstraeusschen. Liaison: Bindung mit Eigelb/Sahne. Roux: Mehlschwitze. Jus: Bratensaft."],
+              ["Garmethoden", "Pocher: pochieren. Braiser: schmoren. Sauter: kurz anbraten/schwenken. Gratiner: ueberbacken. Blanchir: blanchieren."],
+              ["Speisekarte", "Entree kann Vorspeise bedeuten; plat principal ist Hauptgericht; dessert ist Nachspeise; fromage ist Kaese."]
+            ]
+          },
+          {
+            title: "Mini-Glossar",
+            subtitle: "Pruefungsnahe Vokabeln",
+            tags: ["Fonds", "Veloute", "Consomme", "Legumes"],
+            blocks: [
+              ["Saucen und Suppen", "Fond: Grundlage. Veloute: helle Grundsauce auf Fondbasis. Consomme: klare Kraftbruehe. Bechamel: Milchsauce mit heller Roux."],
+              ["Produkte", "Viande: Fleisch. Poisson: Fisch. Volaille: Gefluegel. Legumes: Gemuese. Pommes de terre: Kartoffeln."],
+              ["Service", "Assiette: Teller. Couverts: Besteck/Gedeck. Carte: Speisekarte. Menu: Menue. Service: Bedienung oder Ablauf."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "grundkueche",
+        name: "Grundkueche",
+        icon: "🥣",
+        intro: "Fonds, Saucen, Suppen, Eier und Bindungen als Fundament der Kueche.",
+        topics: [
+          {
+            title: "Fonds und Grundbruehen",
+            subtitle: "Aromatische Grundlagen fuer Suppen, Saucen und Garfluessigkeiten",
+            tags: ["Fond", "Remouillage", "Mirepoix", "Deglacieren"],
+            blocks: [
+              ["Arten", "Heller Fond, brauner Fond, Gefluegelfond, Fischfond, Gemuese- und Wildfond unterscheiden sich nach Rohstoff, Ansatz, Roestung und Kochzeit."],
+              ["Herstellung", "Knochen oder Karkassen vorbereiten, Ansatzgemuese passend schneiden, kaltes Wasser verwenden, langsam erhitzen, abschaeumen, wuerzen und schonend ziehen lassen."],
+              ["Fehler vermeiden", "Starkes Kochen truebt Fonds. Zu lange gezogener Fischfond kann bitter werden. Salz sparsam einsetzen, weil Fonds spaeter reduziert werden."]
+            ]
+          },
+          {
+            title: "Grundsaucen und Ableitungen",
+            subtitle: "Braune, helle, aufgeschlagene und kalte Saucen",
+            tags: ["Demi-glace", "Veloute", "Bechamel", "Hollandaise", "Mayonnaise"],
+            blocks: [
+              ["Braune Saucen", "Braune Knochen roesten, Gemuese mitroesten, Tomatenmark tomatisieren, mehrfach abloeschen, Fond zugeben, ziehen lassen, passieren und reduzieren."],
+              ["Helle Saucen", "Veloute entsteht aus hellem Fond und heller Roux; Bechamel aus Milch und heller Roux. Konsistenz, Glanz und Geschmack werden durch Passieren und Abschmecken verbessert."],
+              ["Emulsionen", "Mayonnaise ist eine kalte Oel-in-Wasser-Emulsion mit Eigelb und Senf. Hollandaise ist eine warme aufgeschlagene Butter-Eigelb-Sauce und darf nicht zu heiss werden."]
+            ]
+          },
+          {
+            title: "Suppen und Einlagen",
+            subtitle: "Klare, gebundene, puereeartige und kalte Suppen",
+            tags: ["Consomme", "Cremesuppe", "Veloute", "Einlagen"],
+            blocks: [
+              ["Klare Suppen", "Eine Consomme wird aus Kraftbruehe und Klaerfleisch geklaert. Ziel sind Kraft, Klarheit, Farbe und saubere Garnitur."],
+              ["Gebundene Suppen", "Bindung erfolgt durch Roux, Staerke, Pueree, Sahne, Eigelb oder Reduktion. Nach dem Binden nicht unkontrolliert kochen lassen."],
+              ["Einlagen", "Einlagen muessen zur Suppe passen, gleichmaessig geschnitten, separat gegart und beim Service in richtiger Temperatur eingesetzt werden."]
+            ]
+          },
+          {
+            title: "Eier und Eierspeisen",
+            subtitle: "Gerinnung, Lockerung und sichere Verarbeitung",
+            tags: ["Ei", "Omelett", "Ruehrei", "Gerinnung", "Salmonellen"],
+            blocks: [
+              ["Eigenschaften", "Ei bindet, lockert, emulgiert, klaert, faerbt und glaenzt. Eiweiss gerinnt bei geringerer Temperatur als Eigelb; Hitze muss kontrolliert werden."],
+              ["Zubereitung", "Gekochte Eier, pochierte Eier, Ruehrei, Omelett, Eierstich und Auflaeufe verlangen jeweils passende Temperatur und Garzeit."],
+              ["Hygiene", "Rohei getrennt handhaben, Schalenkontakt vermeiden, Speisen mit Rohei kuehl halten und schnell verbrauchen. Pasteurisierte Produkte sind fuer sensible Gaeste oft sicherer."]
+            ]
+          },
+          {
+            title: "Bindungen und Lockerungen",
+            subtitle: "Konsistenz technisch verstehen",
+            tags: ["Roux", "Staerke", "Liaison", "Gelatine", "Hefe"],
+            blocks: [
+              ["Bindemittel", "Roux, Staerke, Mehlbutter, Eigelb-Sahne-Liaison, Blut, Gemuese- oder Kartoffelpueree, Gelatine und Reduktion erzeugen unterschiedliche Texturen."],
+              ["Staerke", "Staerke quillt und verkleistert in heisser Fluessigkeit. Sie muss ausreichend erhitzt werden, damit der mehlige Geschmack verschwindet."],
+              ["Lockerung", "Mechanische Lockerung durch Luft, biologische durch Hefe, chemische durch Backpulver und physikalische durch Wasserdampf."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "kaltekueche",
+        name: "Kalte Kueche",
+        icon: "🥗",
+        intro: "Salate, Dressings, Vorspeisen, Platten und Buffets hygienisch und appetitlich planen.",
+        topics: [
+          {
+            title: "Salate und Dressings",
+            subtitle: "Blatt-, Rohkost-, gekochte und zusammengesetzte Salate",
+            tags: ["Vinaigrette", "Marinade", "Mayonnaise", "Buffet"],
+            blocks: [
+              ["Salatarten", "Blattsalate werden schonend gewaschen und trocken geschleudert. Rohkost wird fein geschnitten und mariniert. Gekochte Salate brauchen sichere Abkuehlung."],
+              ["Dressings", "Vinaigrette basiert auf Essig, Oel, Salz, Pfeffer und Aromaten. Mayonnaise-Dressings sind empfindlicher und muessen konsequent gekuehlt werden."],
+              ["Qualitaet", "Salat erst kurz vor dem Service marinieren, damit er knackig bleibt. Farben, Schnittgroessen und Texturen sollen bewusst kombiniert werden."]
+            ]
+          },
+          {
+            title: "Vorspeisen, Canapes und Platten",
+            subtitle: "Kleine Portionen mit klarer Garnitur",
+            tags: ["Canape", "Hors d'oeuvre", "Garnitur", "Aspik"],
+            blocks: [
+              ["Planung", "Kalte Vorspeisen muessen geschmacklich praezise, sauber portioniert und optisch klar sein. Brotunterlagen vor Durchweichen schuetzen."],
+              ["Garnitur", "Garnituren sollen essbar, frisch und funktional sein. Sie duerfen das Produkt nicht verdecken und muessen hygienisch einwandfrei vorbereitet werden."],
+              ["Buffet", "Kuehlkette, Nachlegeprinzip, Spuckschutz, kleine Chargen, Beschriftung und Allergene sind bei kalten Buffets besonders wichtig."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "patisserie",
+        name: "Patisserie & Teige",
+        icon: "🍮",
+        intro: "Grundmassen, Teige, Cremes und Desserts fuer Pruefung und Bankett.",
+        topics: [
+          {
+            title: "Grundteige und Massen",
+            subtitle: "Muerbe-, Hefe-, Brand-, Biskuit- und Ruehrteig",
+            tags: ["Muerbeteig", "Hefeteig", "Brandmasse", "Biskuit"],
+            blocks: [
+              ["Muerbeteig", "Kalte Zutaten, kurze Bearbeitung und Ruhezeit verhindern zaehe Struktur. Typisch fuer Tartes, Boeden und Gebaeck."],
+              ["Hefeteig", "Hefe braucht Nahrung, Feuchtigkeit, Waerme und Zeit. Zu viel Salz, Fett oder Hitze hemmt die Gaerung."],
+              ["Brandmasse und Biskuit", "Brandmasse wird abgeroestet und nimmt Eier auf; Wasserdampf lockert. Biskuit lebt von aufgeschlagener Ei-Zucker-Masse und vorsichtigem Unterheben."]
+            ]
+          },
+          {
+            title: "Cremes, Mousse und Dessertsaucen",
+            subtitle: "Suesse Komponenten stabil und sauber herstellen",
+            tags: ["Creme", "Mousse", "Gelatine", "Karamell", "Vanillesauce"],
+            blocks: [
+              ["Cremes", "Puddingcreme, Creme anglaise, Bayerische Creme und Sahnecremes unterscheiden sich in Bindung, Temperaturfuehrung und Stabilitaet."],
+              ["Gelatine", "In kaltem Wasser einweichen, ausdruecken, warm aufloesen und Temperaturangleich herstellen. Zu viel Saeure oder Enzyme koennen Gelierung stoeren."],
+              ["Karamell", "Zucker trocken oder mit wenig Wasser schmelzen. Farbe und Bitterkeit entstehen schnell; heisser Zucker verursacht schwere Verbrennungen."]
+            ]
+          },
+          {
+            title: "Dessertplanung",
+            subtitle: "Kontrast, Portionierung und Service",
+            tags: ["Textur", "Saeure", "Suessspeise", "Anrichten"],
+            blocks: [
+              ["Balance", "Gute Desserts kombinieren Suess, Saeure, Temperatur und Textur: cremig, knusprig, fruchtig, warm oder kalt."],
+              ["Portionierung", "Desserts muessen reproduzierbar sein. Schablonen, Spritzbeutel, Waage, Eiskugler und definierte Tellerbilder helfen bei gleichbleibender Qualitaet."],
+              ["Pruefung", "Zeitkritische Elemente wie Eis, Schaum, Karamell oder warme Komponenten erst kurz vor dem Service finalisieren."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "organisation",
+        name: "Organisation & Kalkulation",
+        icon: "🧾",
+        intro: "Warenwirtschaft, Kosten, Arbeitsablaeufe und Wirtschaftlichkeit verstehen.",
+        topics: [
+          {
+            title: "Wareneingang und Lagerwirtschaft",
+            subtitle: "Bestellen, pruefen, lagern, dokumentieren",
+            tags: ["Wareneingang", "Lager", "MHD", "FIFO", "Inventur"],
+            blocks: [
+              ["Wareneingang", "Menge, Qualitaet, Temperatur, Verpackung, Lieferpapiere, MHD und Schaeden kontrollieren. Abweichungen sofort dokumentieren und melden."],
+              ["Lagerprinzipien", "FIFO, klare Beschriftung, getrennte Lagerbereiche, passende Luftfeuchte, Temperaturkontrolle und regelmaessige Bestandspruefung senken Verderb."],
+              ["Inventur", "Bestandsaufnahme liefert Grundlage fuer Warenverbrauch, Kalkulation und Verlustkontrolle. Schwund kann durch Verderb, Fehlportionierung oder Diebstahl entstehen."]
+            ]
+          },
+          {
+            title: "Kalkulation und Portionskontrolle",
+            subtitle: "Vom Wareneinsatz zum Verkaufspreis",
+            tags: ["Wareneinsatz", "Rohaufschlag", "Gemeinkosten", "Portion"],
+            blocks: [
+              ["Grundidee", "Der Verkaufspreis muss Wareneinsatz, Personal, Energie, Miete, Risiko, Gewinn und Steuern decken. Reine Einkaufspreise reichen nicht zur Preisfindung."],
+              ["Portionierung", "Standardrezepte, Rezepturen, Ausbeuteberechnung und Portionsgroessen sichern gleichbleibende Kosten und Gaesteerwartung."],
+              ["Pruefungsrechnen", "Typisch sind Dreisatz, Prozentrechnung, Schwund, Garverlust, Ausbeute, Rezeptumrechnung, Rohaufschlag und Mehrwertsteuer."]
+            ]
+          },
+          {
+            title: "Arbeitsablauf und Mise en Place",
+            subtitle: "Zeit, Wege und Reihenfolge professionell steuern",
+            tags: ["Arbeitsplan", "Posten", "Mise en Place", "Service"],
+            blocks: [
+              ["Planung", "Arbeitsablaeufe nach Servicezeit, Garzeiten, Abkuehlzeiten, Geraetebelegung und Personal planen. Kritische Schritte zuerst absichern."],
+              ["Mise en Place", "Zutaten, Werkzeuge, Geraete, Teller, Garnituren und Kontrollpunkte bereitstellen. Gute Vorbereitung reduziert Stress im Service."],
+              ["Nachbereitung", "Reste bewerten, korrekt kuehlen oder entsorgen, Arbeitsplatz reinigen, Dokumentation ergaenzen und Material fuer den naechsten Service vorbereiten."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "sicherheit",
+        name: "Sicherheit & Nachhaltigkeit",
+        icon: "🌿",
+        intro: "Arbeitsschutz, Brandschutz, Ressourcen und verantwortungsvolle Kueche.",
+        topics: [
+          {
+            title: "Arbeitsschutz und Unfallverhuetung",
+            subtitle: "Sicher schneiden, heben, laufen und arbeiten",
+            tags: ["PSA", "Schnittschutz", "Verbrennung", "Rutschgefahr"],
+            blocks: [
+              ["Gefahren", "Schnittverletzungen, Verbrennungen, Verbruehungen, Rutschunfaelle, elektrische Gefahren und falsches Heben gehoeren zu den haeufigsten Risiken."],
+              ["Vorbeugung", "Geeignete Schuhe, trockene Boeden, scharfe Messer, klare Wege, Topflappen, Unterweisungen und Schutzvorrichtungen senken Unfallrisiken."],
+              ["Verhalten", "Unfaelle sofort melden, Erste Hilfe leisten, Gefahrenstelle sichern und betriebliche Meldewege einhalten."]
+            ]
+          },
+          {
+            title: "Brandschutz und Gefahrstoffe",
+            subtitle: "Fett, Gas, Strom und Reinigungsmittel kontrollieren",
+            tags: ["Fettbrand", "Loeschdecke", "Sicherheitsdatenblatt", "Dosierung"],
+            blocks: [
+              ["Brandgefahren", "Heisses Fett, offene Flammen, verschmutzte Abzuege, defekte Kabel und unbeaufsichtigte Geraete sind typische Brandursachen."],
+              ["Loeschen", "Fettbrand nicht mit Wasser loeschen. Geeignete Loescher, Deckel oder Loeschdecke nutzen und Eigenschutz beachten."],
+              ["Gefahrstoffe", "Reinigungs- und Desinfektionsmittel nach Sicherheitsdatenblatt einsetzen, nicht mischen, korrekt dosieren und getrennt von Lebensmitteln lagern."]
+            ]
+          },
+          {
+            title: "Nachhaltigkeit in der Kueche",
+            subtitle: "Ressourcen, Abfall und regionale Verantwortung",
+            tags: ["Saisonal", "Regional", "Abfall", "Energie", "Nose to Tail"],
+            blocks: [
+              ["Einkauf", "Saisonale, regionale und bedarfsgerechte Beschaffung reduziert Transport, Lagerverluste und Kosten. Qualitaet und Verfuegbarkeit bleiben entscheidend."],
+              ["Verwertung", "Abschnitte fuer Fonds, Schalen fuer Aromaten, altes Brot fuer Knoedel oder Croutons: fachgerechte Resteverwertung senkt Abfall."],
+              ["Energie", "Deckel nutzen, passende Topfgroesse waehlen, Geraete vorheizen nur wenn noetig, Kombidaempfer sinnvoll beladen und Kuehlraeume schnell schliessen."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "recht",
+        name: "Recht, Allergene & Gaeste",
+        icon: "⚠️",
+        intro: "Lebensmittelrecht, Kennzeichnung, Allergene und gastorientiertes Handeln pruefungsfest anwenden.",
+        topics: [
+          {
+            title: "Allergenkennzeichnung",
+            subtitle: "14 Hauptallergene kennen und Kreuzkontakt vermeiden",
+            tags: ["Gluten", "Ei", "Milch", "Fisch", "Nuesse", "Sellerie", "Senf", "Sulfit"],
+            blocks: [
+              ["Pflichtwissen", "Zu den kennzeichnungspflichtigen Allergenen gehoeren glutenhaltiges Getreide, Krebstiere, Eier, Fisch, Erdnuesse, Soja, Milch, Schalenfruechte, Sellerie, Senf, Sesam, Schwefeldioxid/Sulfite, Lupinen und Weichtiere."],
+              ["Praxis", "Allergene muessen fuer Gaeste verlaesslich abrufbar sein. Rezepturaenderungen, Garnituren, Fonds, Bindemittel, Convenienceprodukte und gemeinsam genutztes Frittierfett sind typische Fehlerquellen."],
+              ["Kreuzkontakt", "Getrennte Werkzeuge, saubere Bretter, Handschuhe bei Bedarf, klare Lagerung und Kommunikation mit Service und Kueche senken Risiken."]
+            ]
+          },
+          {
+            title: "MHD, Verbrauchsdatum und Zusatzstoffe",
+            subtitle: "Kennzeichnung im Alltag richtig deuten",
+            tags: ["LMIV", "Zusatzstoffe", "MHD", "Verbrauchsdatum", "Etikett"],
+            blocks: [
+              ["MHD", "Das Mindesthaltbarkeitsdatum ist eine Qualitaetsangabe. Nach Ablauf muss Ware sensorisch und hygienisch beurteilt werden; sie ist nicht automatisch verdorben."],
+              ["Verbrauchsdatum", "Bei leicht verderblichen Lebensmitteln ist das Verbrauchsdatum sicherheitsrelevant. Nach Ablauf darf die Ware nicht mehr verwendet oder abgegeben werden."],
+              ["Zusatzstoffe", "Bestimmte Stoffe wie Farbstoffe, Konservierungsstoffe, Antioxidationsmittel, Geschmacksverstaerker, Phosphate oder Suessungsmittel koennen kennzeichnungspflichtig sein."]
+            ]
+          },
+          {
+            title: "Sonderkost und Ernaehrungsformen",
+            subtitle: "Gaestewunsch fachlich sauber umsetzen",
+            tags: ["Vegetarisch", "Vegan", "Glutenfrei", "Laktosefrei", "Religioes"],
+            blocks: [
+              ["Vegetarisch und vegan", "Vegetarisch verzichtet je nach Form auf Fleisch und Fisch; vegan verzichtet auf alle tierischen Produkte inklusive Milch, Ei, Honig und Gelatine."],
+              ["Unvertraeglichkeiten", "Glutenfrei, laktosefrei oder nussfrei verlangt sichere Zutaten, getrennte Verarbeitung und klare Kommunikation. Unsicherheit darf nicht ueberspielt werden."],
+              ["Pruefungsantwort", "Zutatenlisten pruefen, Rezeptur anpassen, getrennt arbeiten, Allergene kennzeichnen und bei Unklarheiten Kuechenleitung oder Service einbeziehen."]
+            ]
+          },
+          {
+            title: "Reklamation und Gaestekommunikation",
+            subtitle: "Professionell reagieren und loesungsorientiert handeln",
+            tags: ["Reklamation", "Service", "Qualitaet", "Kommunikation"],
+            blocks: [
+              ["Haltung", "Ruhig bleiben, zuhoeren, Problem wiederholen, entschuldigen ohne Schuldzuweisung, Loesung anbieten und intern Rueckmeldung geben."],
+              ["Kuechenperspektive", "Reklamationen zu Gargrad, Temperatur, Wartezeit, Salz, Allergenen oder Fremdkoerpern ernst nehmen und Ursachen systematisch pruefen."],
+              ["Qualitaetssicherung", "Haeufen sich Reklamationen, gehoeren Rezeptur, Mise en Place, Kommunikation, Timing und Wareneinsatz auf den Pruefstand."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "pruefungspraxis",
+        name: "Pruefungspraxis",
+        icon: "⏱️",
+        intro: "Konkrete Vorbereitung auf Warenkorb, Arbeitsablaufplan, Fachgespraech und schriftliche Aufgaben.",
+        topics: [
+          {
+            title: "GAP Teil 1: Was wirklich sitzen muss",
+            subtitle: "Grundtechniken fuer einfache Speisen und Gerichte",
+            tags: ["GAP 1", "Grundtechniken", "Mise en Place", "Fachgespraech"],
+            blocks: [
+              ["Techniken", "Sicher schneiden, blanchieren, kochen, braten, duennen, einfache Saucen binden, Salat herstellen, Kartoffel- oder Gemuesebeilage sauber garen."],
+              ["Hygiene", "Haende, Brettwechsel, Kuehlung, Rohware getrennt von verzehrfertigen Komponenten, Temperaturkontrolle und Arbeitsplatzsauberkeit muessen sichtbar sein."],
+              ["Fachgespraech", "Erklaere Warum-Fragen: Warum blanchieren? Warum abschrecken? Warum diese Garart? Warum getrennte Bretter? Warum diese Lagerung?"]
+            ]
+          },
+          {
+            title: "AP Teil 2: Drei-Gaenge-Menue planen",
+            subtitle: "Warenkorb, Pflichtware, Wahlware und Menuebalance",
+            tags: ["AP 2", "Warenkorb", "Drei-Gaenge-Menue", "Pflichtware"],
+            blocks: [
+              ["Menueaufbau", "Plane Vorspeise, Hauptgericht und Dessert so, dass Garverfahren, Farben, Texturen, Temperaturen und Saettigung abwechslungsreich sind."],
+              ["Warenkorb", "Pflichtwaren muessen sinnvoll eingesetzt werden; Wahlwaren ergaenzen nur, wenn sie Geschmack, Technik oder Optik wirklich verbessern."],
+              ["Strategie", "Lieber ein praezises, sauberes Menue mit sicheren Techniken als ein zu kompliziertes Menue, das Zeit, Hygiene oder Gargrad gefaehrdet."]
+            ]
+          },
+          {
+            title: "Arbeitsablaufplan fuer die praktische Pruefung",
+            subtitle: "Minutengenau, realistisch und kontrollierbar",
+            tags: ["Zeitplan", "Rueckwaertsplanung", "Kontrollpunkte", "Servicezeit"],
+            blocks: [
+              ["Aufbau", "Liste Arbeitsschritte mit Uhrzeit, Dauer, Geraet, Hygienepunkten und Serviceziel. Kritische Komponenten rueckwaerts vom Anrichten planen."],
+              ["Prioritaeten", "Lange Garzeiten, Kuehlzeiten, Teigruhe, Fonds/Saucen, Desserts und Mise en Place frueh starten. Kurzbratstuecke und empfindliche Komponenten spaet finalisieren."],
+              ["Kontrolle", "Baue Puffer ein. Markiere Kerntemperaturen, Abschmeckpunkte, Tellerwaermung, Kuehlzeiten, Reinigung und finalen Passgang."]
+            ]
+          },
+          {
+            title: "Fachgespraech: typische Fragen",
+            subtitle: "Sicher begruenden statt auswendig aufsagen",
+            tags: ["Fachgespraech", "Warum", "Begruendung", "Pruefer"],
+            blocks: [
+              ["Warenkunde", "Warum dieses Teilstueck? Welche Qualitaetsmerkmale? Welche Lagerung? Welche Alternative bei anderer Saison oder anderem Budget?"],
+              ["Technologie", "Welche Garart, welche Temperatur, welcher Gargrad, welche Bindung, welche Sauce, welche Fehler koennen auftreten und wie korrigierst du sie?"],
+              ["Hygiene und Wirtschaftlichkeit", "Welche CCPs beachtest du? Welche Allergene sind enthalten? Wie vermeidest du Abfall? Wie haeltst du Portionen und Kosten stabil?"]
+            ]
+          },
+          {
+            title: "Schriftliche Pruefung: Aufgabentypen",
+            subtitle: "Rechnen, Zuordnen, Begruenden und Situationen loesen",
+            tags: ["Schriftlich", "Dreisatz", "Technologie", "WiSo", "Warenwirtschaft"],
+            blocks: [
+              ["Rechnen", "Dreisatz, Prozentrechnung, Rezeptumrechnung, Garverlust, Ausbeute, Wareneinsatz, Rohaufschlag, Rabatt, Skonto und Mehrwertsteuer regelmaessig ueben."],
+              ["Situationen", "IHK-Aufgaben sind oft handlungsorientiert: Du bekommst eine Kuechensituation und musst fachlich, hygienisch, wirtschaftlich und gaesteorientiert entscheiden."],
+              ["Lerntechnik", "Nicht nur Definitionen lernen. Zu jedem Thema mindestens ein Beispiel, einen Fehler, eine Korrektur und einen Pruefungsbezug formulieren."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "wiso",
+        name: "WiSo & Beruf",
+        icon: "💼",
+        intro: "Wirtschafts- und Sozialkunde, Rechte, Pflichten und betriebliche Zusammenhaenge.",
+        topics: [
+          {
+            title: "Ausbildungsvertrag und Pflichten",
+            subtitle: "Rechte und Pflichten von Azubi und Betrieb",
+            tags: ["BBiG", "Ausbildungsvertrag", "Berichtsheft", "Probezeit"],
+            blocks: [
+              ["Azubi-Pflichten", "Lernpflicht, Sorgfalt, Weisungen befolgen, Berichtsheft fuehren, Betriebsordnung beachten, Berufsschule besuchen und Betriebsgeheimnisse wahren."],
+              ["Betriebspflichten", "Ausbildung nach Ausbildungsplan, geeignete Ausbilder, kostenlose Ausbildungsmittel, Freistellung fuer Berufsschule und Pruefung, Schutzpflichten."],
+              ["Pruefungsnahe Begriffe", "Probezeit, Kuendigung, Abmahnung, Jugendarbeitsschutz, Urlaub, Arbeitszeit und Tarifvertrag koennen in WiSo abgefragt werden."]
+            ]
+          },
+          {
+            title: "Arbeitszeit, Jugendschutz und Arbeitsschutz",
+            subtitle: "Regeln im Kuechenalltag verstehen",
+            tags: ["Arbeitszeit", "Pause", "JArbSchG", "DGUV"],
+            blocks: [
+              ["Arbeitszeit", "Pausen, Ruhezeiten, Sonn- und Feiertagsarbeit sowie Mehrarbeit haengen von Alter, Tarif, Betrieb und Gesetz ab. Jugendliche haben besondere Schutzregeln."],
+              ["Unterweisung", "Arbeitsschutz lebt von Unterweisung, Gefaehrdungsbeurteilung, persoenlicher Schutzausruestung und Melden von Gefahren."],
+              ["Pruefung", "Bei WiSo geht es oft um Anwendung: Wer ist zustaendig? Welche Regel schuetzt wen? Was ist bei Krankheit, Unfall oder Ueberstunden zu tun?"]
+            ]
+          },
+          {
+            title: "Betriebswirtschaft im Restaurant",
+            subtitle: "Kosten, Umsatz, Produktivitaet und Qualitaet",
+            tags: ["Umsatz", "Kosten", "Gewinn", "Deckungsbeitrag", "Qualitaet"],
+            blocks: [
+              ["Kostenarten", "Wareneinsatz, Personal, Energie, Miete, Reinigung, Reparaturen, Versicherungen und Verwaltung beeinflussen den Preis einer Speise."],
+              ["Kennzahlen", "Wareneinsatzquote, Personalkostenquote, Umsatz pro Gast, Durchschnittsbon und Retourenquote helfen beim Steuern des Betriebs."],
+              ["Qualitaet", "Qualitaet ist nicht nur Geschmack: Hygiene, Servicezeit, Temperatur, Portion, Optik, Gaestezufriedenheit und Wirtschaftlichkeit gehoeren zusammen."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "vertiefung",
+        name: "Vertiefte Waren & Technik",
+        icon: "📚",
+        intro: "Zusatzwissen fuer starke Antworten in AP 2 und Fachgespraech.",
+        topics: [
+          {
+            title: "Fleischreifung, Gargrade und Verluste",
+            subtitle: "Qualitaet, Kerntemperatur und Ausbeute",
+            tags: ["Dry Aging", "Wet Aging", "Garverlust", "Kerntemperatur"],
+            blocks: [
+              ["Reifung", "Fleischreifung verbessert Zartheit und Aroma durch enzymatische Prozesse. Nassreifung geschieht im Vakuum, Trockenreifung kontrolliert an Luft mit Gewichtsverlust."],
+              ["Gargrade", "Gargrad haengt von Teilstueck, Dicke, Fett, Bindegewebe und Gaestewunsch ab. Nachgaren und Ruhezeit einplanen, damit Saftverteilung und Temperatur stimmen."],
+              ["Ausbeute", "Parierverlust, Garverlust und Tranchierverlust beeinflussen Portionskosten. In der Kalkulation zaehlt die verkaufsfaehige Menge, nicht nur das Einkaufsgewicht."]
+            ]
+          },
+          {
+            title: "Fisch zerlegen und garen",
+            subtitle: "Rundfisch, Plattfisch, Filet und Karkasse",
+            tags: ["Rundfisch", "Plattfisch", "Filet", "Graeten", "Karkasse"],
+            blocks: [
+              ["Zerlegen", "Rundfisch liefert meist zwei Filets, Plattfisch vier Filets. Saubere Schnittfuehrung, Graetenkontrolle und kurze Wege in die Kuehlung sind entscheidend."],
+              ["Garfehler", "Zu hohe Temperatur laesst Eiweiss austreten und Fisch trocken werden. Schonende Garung, passende Sauce und kurze Standzeiten sichern Qualitaet."],
+              ["Verwertung", "Karkassen fuer Fischfond verwenden, aber Kiemen und blutige Stellen entfernen. Karkassen kalt waessern, sauber arbeiten und nur kurz ausziehen."]
+            ]
+          },
+          {
+            title: "Kartoffeln, Reis und Teigwaren",
+            subtitle: "Saettigungsbeilagen pruefungssicher",
+            tags: ["Kartoffel", "Reis", "Pasta", "Staerke", "Gnocchi"],
+            blocks: [
+              ["Kartoffeln", "Festkochende Kartoffeln fuer Salat, Bratkartoffeln und Gratin; mehligkochende fuer Pueree, Kloesse, Suppen und Kroketten."],
+              ["Reis", "Quellreis, Risotto, Pilaw und Milchreis unterscheiden sich in Fluessigkeitsmenge, Ruehren, Staerkeabgabe und Zielkonsistenz."],
+              ["Teigwaren", "Pasta in reichlich Salzwasser garen, al dente halten und passend zur Sauce fertigstellen. Frische Pasta gart deutlich schneller."]
+            ]
+          },
+          {
+            title: "Gemuesegaren und Farberhalt",
+            subtitle: "Chlorophyll, Anthocyane, Saeure und Biss",
+            tags: ["Gruenes Gemuese", "Rotkohl", "Saeure", "Bissfest"],
+            blocks: [
+              ["Gruenes Gemuese", "Kurz und offen garen oder blanchieren, danach abschrecken. Zu lange Hitze und Saeure koennen gruene Farbe grauoliv wirken lassen."],
+              ["Rotes und violettes Gemuese", "Anthocyane reagieren auf pH-Wert. Rotkohl bleibt mit Saeure roetlicher, wird bei alkalischer Umgebung blaeulich."],
+              ["Biss", "Gleichmaessige Schnittgroessen und passende Reihenfolge verhindern, dass ein Teil verkocht und ein anderer noch roh ist."]
+            ]
+          },
+          {
+            title: "Saucenfehler korrigieren",
+            subtitle: "Geronnen, zu duenn, zu salzig, zu fettig",
+            tags: ["Korrektur", "Emulsion", "Reduktion", "Abschmecken"],
+            blocks: [
+              ["Zu duenn", "Reduzieren, passende Bindung nachsetzen oder kalte Butter montieren. Staerke immer ausreichend erhitzen."],
+              ["Geronnen", "Warme Emulsionen vorsichtig mit etwas Wasser oder Eigelb neu aufziehen. Bei Sahnesaucen Hitze senken und passieren."],
+              ["Zu salzig", "Verdunnen, ungesalzene Komponenten ergaenzen oder neu ausbalancieren. Kartoffeltrick ist unzuverlaessig; fachlich besser ist gezieltes Strecken."]
+            ]
+          }
+        ]
+      },
+      {
+        id: "pruefung",
+        name: "IHK Saarland & Pruefung",
+        icon: "🎓",
+        intro: "Pruefungsstruktur, Lernstrategie und typische Handlungsfelder.",
+        topics: [
+          {
+            title: "GAP Teil 1",
+            subtitle: "Zubereiten einfacher Speisen und Gerichte",
+            tags: ["AO 2022", "Arbeitsaufgabe", "Fachgespraech", "Grundtechniken"],
+            blocks: [
+              ["Schwerpunkt", "Teil 1 prueft fruehe berufliche Handlungsfaehigkeit: einfache Speisen planen, vorbereiten, zubereiten, anrichten und hygienisch arbeiten."],
+              ["Typische Inhalte", "Mise en Place, einfache Garverfahren, Schnitttechniken, Warenqualitaet, Hygiene, Arbeitsplatzorganisation, Unfallverhuetung und Fachgespraech."],
+              ["Lernstrategie", "Trainiere Grundtechniken wiederholbar: Kartoffeln, Gemuese, Ei, einfache Fonds/Suppen/Saucen, Salate, Fisch oder Fleischgrundlagen."]
+            ]
+          },
+          {
+            title: "AP Teil 2",
+            subtitle: "Komplexe berufliche Handlungssituationen",
+            tags: ["Warenkorb", "Menue", "Wirtschaftlichkeit", "Gastorientierung"],
+            blocks: [
+              ["Schwerpunkt", "Teil 2 betrachtet die vollstaendige berufliche Handlung: planen, kalkulieren, herstellen, praesentieren, bewerten und fachlich begruenden."],
+              ["Schriftliche Themen", "Technologie, Warenwirtschaft, Hygiene, Ernaehrung, Menuekunde, Nachhaltigkeit, Wirtschafts- und Sozialkunde sowie gastorientierte Situationen."],
+              ["Praxis", "Sicherer Arbeitsablauf, Geschmack, Gargrad, Temperatur, Hygiene, Zeitmanagement, Anrichten und Fachgespraech entscheiden zusammen."]
+            ]
+          },
+          {
+            title: "Saarland-spezifisch lernen",
+            subtitle: "Region, IHK-Unterlagen und Berufsschule verbinden",
+            tags: ["IHK Saarland", "Berufsschule", "Regionale Kueche", "Nachhaltigkeit"],
+            blocks: [
+              ["Prioritaet", "Nutze die aktuellen Hinweise der IHK Saarland, deiner Berufsschule und deines Ausbildungsbetriebs. Regionale Ablaeufe, Termine und Warenkoerbe koennen sich unterscheiden."],
+              ["Regionale Kueche", "Dibbelabbes, Lyoner, Gefillde, Viez, Saar-Wein, Wild, Kartoffel- und Kohlgerichte eignen sich, um Warenkunde, Kalkulation und Menueplanung regional zu denken."],
+              ["Pruefungsroutine", "Uebe unter Zeitdruck, schreibe Arbeitsablaeufe, kontrolliere Temperaturen und trainiere das Begruenden deiner Entscheidungen laut."]
+            ]
+          }
+        ]
+      }
+    ];
+
+    const flashcards = [
+      ["warenkunde", "Warum eignet sich Rinderschulter gut zum Schmoren?", "Sie enthaelt mehr Bindegewebe und wird durch langes Garen mit Feuchtigkeit zart; gleichzeitig entsteht ein kraeftiger Saucenansatz."],
+      ["warenkunde", "Nenne vier Frischezeichen bei ganzem Fisch.", "Klare Augen, rote Kiemen, fester Koerper, frischer Geruch und intakte Schleimschicht."],
+      ["warenkunde", "Warum sollten ganze Gewuerze oft erst geroestet oder gemahlen werden?", "Dadurch werden aetherische Oele freigesetzt und das Aroma wird intensiver."],
+      ["garmethoden", "Was ist der Unterschied zwischen Pochieren und Kochen?", "Pochieren erfolgt unter dem Siedepunkt und ist schonender; Kochen nutzt sprudelnde Fluessigkeit um 100 Grad Celsius."],
+      ["garmethoden", "Welche Schritte gehoeren zum Schmoren?", "Anbraten, Roeststoffe bilden, abloeschen, mit wenig Fluessigkeit zugedeckt garen und Sauce aus dem Ansatz herstellen."],
+      ["garmethoden", "Warum wird Gemuese nach dem Blanchieren abgeschreckt?", "Um den Garprozess zu stoppen, Farbe zu erhalten und die gewuenschte Bissfestigkeit zu sichern."],
+      ["schnitttechniken", "Was ist Brunoise?", "Sehr feine Wuerfel, meist aus Julienne geschnitten, fuer Suppen, Saucen und Garnituren."],
+      ["schnitttechniken", "Welche Handhaltung schuetzt beim Schneiden?", "Der Krallengriff: Fingerkuppen nach innen, Messer gleitet an den Knoecheln entlang."],
+      ["hygiene", "Was bedeutet HACCP?", "Hazard Analysis and Critical Control Points: Gefahren analysieren, kritische Punkte kontrollieren und Massnahmen dokumentieren."],
+      ["hygiene", "Was gehoert in einen Reinigungsplan?", "Was gereinigt wird, wann, womit, wie, durch wen und wie die Kontrolle dokumentiert wird."],
+      ["hygiene", "Was ist bei rohem Gefluegel besonders wichtig?", "Getrennte Lagerung und Bearbeitung, gruendliche Reinigung, sichere Erhitzung und Vermeidung von Kreuzkontamination."],
+      ["naehrwerte", "Welche drei Makronaehrstoffe liefern Energie?", "Kohlenhydrate, Fett und Eiweiss."],
+      ["naehrwerte", "Warum ist Daempfen naehrstoffschonend?", "Es nutzt wenig oder kein Kochwasser und meist kuerzere Garzeiten; dadurch werden weniger wasserloesliche Stoffe ausgelaugt."],
+      ["geraete", "Warum darf ein Fettbrand nicht mit Wasser geloescht werden?", "Wasser verdampft schlagartig, schleudert brennendes Fett heraus und verursacht eine Fettexplosion."],
+      ["geraete", "Wofuer ist ein Kombidaempfer geeignet?", "Fuer Dampf, Heissluft und Kombinationen, also Garen, Regenerieren, Bankettproduktion und Niedertemperaturprozesse."],
+      ["menuekunde", "Was macht ein stimmiges Menue aus?", "Ausgewogene Folge hinsichtlich Saison, Farbe, Textur, Temperatur, Saettigung, Garverfahren und Geschmack."],
+      ["menuekunde", "Warum plant man den Arbeitsablauf rueckwaerts?", "Damit alle Komponenten zum Servicezeitpunkt passend gar, heiss oder kalt, angerichtet und hygienisch sicher sind."],
+      ["franzoesisch", "Was bedeutet Mise en place?", "Alle Vorbereitungen vor dem Service: Lebensmittel, Geraete, Arbeitsplatz, Garnituren und Hilfsmittel bereitstellen."],
+      ["franzoesisch", "Was bedeutet braiser?", "Schmoren."],
+      ["grundkueche", "Warum werden braune Knochen fuer braune Saucen stark angeroestet?", "Roesten bildet Farbe und Roeststoffe; diese geben der Sauce Tiefe, Aroma und eine dunkle Grundfarbe."],
+      ["grundkueche", "Warum sollte Fischfond nur kurz ziehen?", "Fischgraeten geben schnell Aroma ab; zu langes Ziehen kann Bitterstoffe und unangenehme Noten loesen."],
+      ["grundkueche", "Was ist eine Roux?", "Eine Mehlschwitze aus Fett und Mehl, die je nach Farbe fuer helle oder dunklere Bindungen verwendet wird."],
+      ["grundkueche", "Was ist eine Liaison?", "Eine Bindung aus Eigelb und Sahne; sie wird angeglichen und darf nicht stark kochen, sonst gerinnt sie."],
+      ["kaltekueche", "Warum werden Blattsalate erst kurz vor dem Service mariniert?", "Salz und Saeure entziehen Wasser; der Salat faellt zusammen und verliert Biss."],
+      ["kaltekueche", "Nenne drei wichtige Punkte fuer ein kaltes Buffet.", "Kuehlkette sichern, kleine Chargen nachlegen, Allergene kennzeichnen und Speisen vor Kontamination schuetzen."],
+      ["patisserie", "Warum darf Muerbeteig nicht zu lange geknetet werden?", "Sonst bildet sich zu viel Gluten, der Teig wird zaeh und verliert seine muerbe Struktur."],
+      ["patisserie", "Welche Lockerungsarten gibt es?", "Mechanisch durch Luft, biologisch durch Hefe, chemisch durch Backpulver und physikalisch durch Wasserdampf."],
+      ["organisation", "Was bedeutet FIFO im Lager?", "First in, first out: Aeltere Ware wird zuerst verbraucht, damit Verderb und MHD-Ueberschreitungen vermieden werden."],
+      ["organisation", "Warum sind Standardrezepte wirtschaftlich wichtig?", "Sie sichern gleichbleibende Qualitaet, Portionsgroesse, Wareneinsatz und Kalkulierbarkeit."],
+      ["sicherheit", "Wie reagierst du bei einem Fettbrand?", "Nicht mit Wasser loeschen, Hitzequelle wenn gefahrlos abschalten, abdecken oder geeigneten Loescher nutzen und Hilfe holen."],
+      ["sicherheit", "Nenne drei nachhaltige Massnahmen in der Kueche.", "Saisonal einkaufen, Abschnitte verwerten, Energie sparen, bedarfsgerecht produzieren und Abfaelle trennen."],
+      ["recht", "Welche 14 Hauptallergene musst du sicher einordnen koennen?", "Glutenhaltiges Getreide, Krebstiere, Eier, Fisch, Erdnuesse, Soja, Milch, Schalenfruechte, Sellerie, Senf, Sesam, Schwefeldioxid/Sulfite, Lupinen und Weichtiere."],
+      ["recht", "Was ist der Unterschied zwischen MHD und Verbrauchsdatum?", "MHD ist eine Qualitaetsangabe; nach Ablauf kann Ware geprueft noch verwendbar sein. Verbrauchsdatum gilt fuer leicht Verderbliches und darf nicht ueberschritten werden."],
+      ["recht", "Wie vermeidest du Kreuzkontakt bei allergenfreien Speisen?", "Zutaten pruefen, getrennte Werkzeuge nutzen, Arbeitsplatz reinigen, klare Kommunikation sichern und Speisen getrennt lagern oder anrichten."],
+      ["pruefungspraxis", "Was sollte ein Arbeitsablaufplan enthalten?", "Uhrzeiten, Arbeitsschritte, Dauer, Geraete, kritische Kontrollpunkte, Hygiene, Pufferzeiten und geplanten Servicezeitpunkt."],
+      ["pruefungspraxis", "Was ist bei der AP-2-Menueplanung wichtiger als Komplexitaet?", "Sichere Technik, stimmiger Geschmack, saubere Hygiene, gutes Timing, Menuebalance und fachliche Begruendung."],
+      ["pruefungspraxis", "Nenne typische Themen im Fachgespraech.", "Warenqualitaet, Garverfahren, Hygiene, Allergene, Lagerung, Kalkulation, Nachhaltigkeit, Fehlerkorrektur und Anrichten."],
+      ["wiso", "Nenne vier Pflichten eines Auszubildenden.", "Lernpflicht, Sorgfalt, Weisungen befolgen, Berichtsheft fuehren, Berufsschule besuchen und Betriebsgeheimnisse wahren."],
+      ["wiso", "Welche Kosten beeinflussen den Verkaufspreis einer Speise?", "Wareneinsatz, Personal, Energie, Miete, Reinigung, Verwaltung, Risiko, Gewinn und Steuern."],
+      ["vertiefung", "Warum zaehlt bei der Kalkulation die verkaufsfaehige Menge?", "Weil Parier-, Gar- und Tranchierverluste Kosten verursachen, aber nicht verkauft werden koennen."],
+      ["vertiefung", "Welche Kartoffelsorte eignet sich fuer Pueree?", "Mehligkochende Kartoffeln, weil ihre Staerke leichter zerfaellt und eine lockere, trockene Struktur ergibt."],
+      ["vertiefung", "Wie korrigierst du eine zu duenne Sauce fachlich?", "Reduzieren, passende Bindung nachsetzen, montieren oder Rezeptur strecken und danach erneut abschmecken."],
+      ["pruefung", "Welche Rolle hat GAP Teil 1 seit AO 2022?", "Sie ist Teil der gestreckten Abschlusspruefung und ersetzt die klassische Zwischenpruefung im Beruf Koch/Koechin."],
+      ["pruefung", "Was solltest du im Fachgespraech begruenden koennen?", "Garverfahren, Hygiene, Warenqualitaet, Arbeitsorganisation, Naehrwerte, Allergene, Wirtschaftlichkeit und Anrichteentscheidungen."]
+    ];
+
+    const glossary = [
+      ["Allergene", "Stoffe, die bei empfindlichen Personen allergische Reaktionen ausloesen koennen und bei Speisen nachvollziehbar gekennzeichnet werden muessen."],
+      ["Anthocyane", "Pflanzliche Farbstoffe in rotem und violettem Gemuese; ihre Farbe veraendert sich je nach Saeuregrad."],
+      ["AP 2", "Zweiter Teil der gestreckten Abschlusspruefung am Ende der Ausbildung mit praktischen, schriftlichen und fachlichen Anforderungen."],
+      ["Bain-Marie", "Wasserbad zum schonenden Warmhalten oder Garen empfindlicher Speisen, Saucen und Cremes."],
+      ["Batonnet", "Gleichmaessiger Staebchenschnitt, groesser als Julienne."],
+      ["Bechamel", "Helle Grundsauce aus Milch und heller Roux."],
+      ["Blanchieren", "Kurzes Garen in kochendem Wasser oder Dampf, meist mit anschließendem Abschrecken."],
+      ["Bouquet garni", "Kraeuterstraeusschen zum Aromatisieren von Fonds, Suppen und Schmoransaetzen."],
+      ["Brunoise", "Sehr feine, gleichmaessige Wuerfel, oft aus Julienne geschnitten."],
+      ["CCP", "Critical Control Point: kritischer Kontrollpunkt in einem HACCP-Konzept, an dem eine Gefahr sicher beherrscht werden muss."],
+      ["Chiffonade", "Feine Streifen aus aufgerollten Blattkraeutern oder Blattgemuese."],
+      ["Consomme", "Geklaerte Kraftbruehe mit kraeftigem Geschmack und klarer Optik."],
+      ["Convenienceprodukte", "Vorverarbeitete Lebensmittel unterschiedlicher Fertigungsstufen, die Arbeit sparen, aber Rezeptur, Allergene und Qualitaet beeinflussen."],
+      ["Deglacieren", "Ablöschen eines Roestansatzes mit Fluessigkeit, um Aromastoffe vom Topf- oder Pfannenboden zu loesen."],
+      ["Demi-glace", "Stark reduzierte braune Grundsauce oder Saucenbasis mit kraeftigem Geschmack."],
+      ["Dreisatz", "Rechenverfahren, um aus drei bekannten Werten einen vierten proportionalen Wert zu berechnen."],
+      ["Duennen", "Schonendes Garen in wenig Fett und wenig eigener oder zugegebener Fluessigkeit bei geschlossenem Deckel."],
+      ["FIFO", "First in, first out: zuerst eingelagerte Ware wird zuerst verbraucht."],
+      ["Fond", "Aromatische Grundbruehe aus Knochen, Karkassen, Gemuese oder Fisch als Basis fuer Saucen, Suppen und Garfluessigkeiten."],
+      ["GAP 1", "Erster Teil der gestreckten Abschlusspruefung; prueft fruehe berufliche Handlungsfaehigkeit."],
+      ["Garverlust", "Gewichtsverlust beim Garen durch Wasser-, Fett- und Saftverlust."],
+      ["Gelatine", "Tierisches Geliermittel, das Cremes, Terrinen und Gelees stabilisiert."],
+      ["Gratinieren", "Kurzes Ueberbacken mit starker Oberhitze fuer Farbe und Kruste."],
+      ["HACCP", "System zur Gefahrenanalyse und Kontrolle kritischer Punkte in der Lebensmittelproduktion."],
+      ["Hollandaise", "Warme aufgeschlagene Buttersauce aus Eigelb, Reduktion und geklaerter Butter."],
+      ["Julienne", "Feiner Streifenschnitt fuer Gemuese oder Garnituren."],
+      ["Jus", "Konzentrierter Bratensaft oder natuerliche Sauce aus Fleischansatz."],
+      ["Karkasse", "Knochengeruest von Gefluegel oder Fisch, das fuer Fonds verwendet werden kann."],
+      ["Kerntemperatur", "Temperatur im Inneren eines Lebensmittels; wichtig fuer Gargrad und Lebensmittelsicherheit."],
+      ["Kreuzkontamination", "Uebertragung von Keimen oder Allergenen von einem Lebensmittel, Werkzeug oder Arbeitsplatz auf ein anderes Produkt."],
+      ["Liaison", "Bindung aus Eigelb und Sahne, die Saucen oder Suppen legiert und nicht stark kochen darf."],
+      ["LMIV", "Lebensmittelinformationsverordnung; regelt Verbraucherinformationen wie Allergene und Kennzeichnung."],
+      ["Maillard", "Braeunungsreaktion zwischen Eiweissbausteinen und Zucker, die Roeststoffe und Aroma bildet."],
+      ["MHD", "Mindesthaltbarkeitsdatum: Qualitaetsdatum, bis zu dem ein Lebensmittel bei richtiger Lagerung typische Eigenschaften behaelt."],
+      ["Mirepoix", "Grob geschnittenes Roest- oder Suppengemuese als Aromabasis fuer Fonds, Saucen und Schmoransaetze."],
+      ["Mise en Place", "Alle vorbereitenden Arbeiten vor Produktion oder Service: Zutaten, Werkzeuge, Geraete und Arbeitsplatz bereitstellen."],
+      ["Montieren", "Einruehren kalter Butter in eine Sauce, um Glanz, Bindung und Geschmack zu verbessern."],
+      ["Pochieren", "Schonendes Garziehen unter dem Siedepunkt."],
+      ["Remouillage", "Zweiter Aufguss bereits ausgekochter Knochen oder Karkassen fuer eine leichtere Nachbruehe."],
+      ["Rohaufschlag", "Kalkulatorischer Zuschlag auf den Wareneinsatz zur Ermittlung eines Verkaufspreises."],
+      ["Roux", "Mehlschwitze aus Fett und Mehl zur Bindung von Saucen und Suppen."],
+      ["Sautieren", "Kurzes Braten oder Schwenken kleiner Stuecke bei hoher Hitze."],
+      ["Schmoren", "Kombiniertes Garverfahren: erst anbraten, dann mit wenig Fluessigkeit zugedeckt garen."],
+      ["Skonto", "Preisnachlass bei Zahlung innerhalb einer vereinbarten kurzen Frist."],
+      ["Sous-vide", "Vakuumgaren bei kontrollierter niedriger Temperatur im Wasserbad oder Dampf."],
+      ["Veloute", "Helle Grundsauce aus hellem Fond und heller Roux."],
+      ["Verbrauchsdatum", "Sicherheitsdatum fuer leicht verderbliche Lebensmittel; nach Ablauf darf das Produkt nicht mehr verwendet werden."],
+      ["Vinaigrette", "Kalte Sauce oder Dressing aus Essig, Oel, Gewuerzen und Aromaten."]
+    ].map(([term, definition]) => ({
+      term,
+      definition,
+      id: `glossary-${slugify(term)}`
+    }));
+
+    const state = {
+      query: "",
+      activeCategory: "alle",
+      allOpen: false,
+      cardPool: flashcards,
+      cardIndex: 0,
+      activeGlossary: "",
+      glossaryQuery: ""
+    };
+
+    const contentEl = document.getElementById("content");
+    const searchInput = document.getElementById("searchInput");
+    const searchToggle = document.getElementById("searchToggle");
+    const headerSearch = document.getElementById("headerSearch");
+    const topNav = document.getElementById("topNav");
+    const resultCount = document.getElementById("resultCount");
+    const contentTitle = document.getElementById("contentTitle");
+    const cardCategory = document.getElementById("cardCategory");
+    const flashCard = document.getElementById("flashCard");
+    const cardQuestion = document.getElementById("cardQuestion");
+    const cardAnswer = document.getElementById("cardAnswer");
+    const frontLabel = document.getElementById("frontLabel");
+    const glossaryList = document.getElementById("glossaryList");
+    const glossarySearch = document.getElementById("glossarySearch");
+    const clearGlossaryHighlight = document.getElementById("clearGlossaryHighlight");
+
+    function normalize(text) {
+      return String(text).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function slugify(text) {
+      return normalize(text).replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    }
+
+    function escapeHtml(text) {
+      return String(text).replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+      })[char]);
+    }
+
+    function highlight(text) {
+      const safe = escapeHtml(text);
+      const query = state.query.trim();
+      if (!query) return safe;
+      const words = query.split(/\s+/).filter(Boolean).map((word) => word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+      if (!words.length) return safe;
+      return safe.replace(new RegExp(`(${words.join("|")})`, "gi"), "<mark>$1</mark>");
+    }
+
+    function linkGlossaryTerms(text) {
+      let safe = escapeHtml(text);
+      const sorted = [...glossary].sort((a, b) => b.term.length - a.term.length);
+      sorted.forEach((entry) => {
+        const escapedTerm = entry.term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const pattern = new RegExp(`(^|[^\\p{L}\\p{N}_-])(${escapedTerm})(?=$|[^\\p{L}\\p{N}_-])`, "giu");
+        safe = safe.split(/(<[^>]+>)/g).map((part) => {
+          if (part.startsWith("<")) return part;
+          return part.replace(pattern, (match, prefix, word) => `${prefix}<a class="glossary-term" href="#${entry.id}" data-glossary="${entry.id}" data-def="${escapeHtml(entry.definition)}">${word}</a>`);
+        }).join("");
+      });
+      return safe;
+    }
+
+    function renderText(text) {
+      return state.query.trim() ? highlight(text) : linkGlossaryTerms(text);
+    }
+
+    function topicText(category, topic) {
+      return normalize([
+        category.name,
+        category.intro,
+        topic.title,
+        topic.subtitle,
+        topic.tags.join(" "),
+        topic.blocks.flat().join(" ")
+      ].join(" "));
+    }
+
+    function matches(category, topic) {
+      const query = normalize(state.query.trim());
+      const categoryMatch = state.activeCategory === "alle" || state.activeCategory === category.id;
+      const searchMatch = !query || query.split(/\s+/).every((part) => topicText(category, topic).includes(part));
+      return categoryMatch && searchMatch;
+    }
+
+    function renderNavigation() {
+      const navItems = [{ id: "alle", name: "Alle" }, ...categories.map(({ id, name }) => ({ id, name })), { id: "fachwoerter", name: "Fachwoerter" }, { id: "karten", name: "Karten" }];
+      topNav.innerHTML = navItems.map((item) => {
+        const isCards = item.id === "karten";
+        return `<button class="nav-chip ${state.activeCategory === item.id ? "active" : ""}" type="button" data-nav="${item.id}">${escapeHtml(item.name)}</button>`;
+      }).join("");
+
+    }
+
+    function renderContent() {
+      const fragments = [];
+      let visibleTopics = 0;
+      const active = categories.find((category) => category.id === state.activeCategory);
+      contentTitle.textContent = active ? active.name : "Alle Themen";
+
+      categories.forEach((category) => {
+        const filteredTopics = category.topics.filter((topic) => matches(category, topic));
+        if (!filteredTopics.length) return;
+        visibleTopics += filteredTopics.length;
+        fragments.push(`
+          <section id="${category.id}" data-section="${category.id}">
+            <p class="section-kicker">${escapeHtml(category.name)}</p>
+            ${filteredTopics.map((topic, index) => `
+              <details class="accordion" ${state.allOpen || state.query ? "open" : ""}>
+                <summary>
+                  <div class="summary-title">
+                    <span class="icon" aria-hidden="true">${category.icon}</span>
+                    <span>
+                      <h3>${highlight(topic.title)}</h3>
+                      <span class="tagline">${renderText(topic.subtitle)}</span>
+                    </span>
+                  </div>
+                  <span class="chevron" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </summary>
+                <div class="accordion-body">
+                  <div class="chips">${topic.tags.map((tag) => `<span class="chip">${renderText(tag)}</span>`).join("")}</div>
+                  <div class="knowledge-grid">
+                    ${topic.blocks.map(([title, body]) => `
+                      <article class="mini-card">
+                        <strong>${renderText(title)}</strong>
+                        <p>${renderText(body)}</p>
+                      </article>
+                    `).join("")}
+                  </div>
+                </div>
+              </details>
+            `).join("")}
+          </section>
+        `);
+      });
+
+      resultCount.textContent = `${visibleTopics} ${visibleTopics === 1 ? "Thema" : "Themen"} gefunden`;
+      contentEl.innerHTML = fragments.length ? fragments.join("") : `
+        <div class="empty-state">
+          Kein Treffer fuer diese Suche. Probiere einen Oberbegriff wie Hygiene, Sauce, Fleisch, Garmethode oder Pruefung.
+        </div>
+      `;
+    }
+
+    function renderGlossary() {
+      const query = normalize(state.glossaryQuery.trim());
+      const entries = glossary.filter((entry) => {
+        if (!query) return true;
+        return normalize(`${entry.term} ${entry.definition}`).includes(query);
+      });
+
+      glossaryList.innerHTML = entries.length ? entries.map((entry) => `
+        <article class="glossary-entry ${state.activeGlossary === entry.id ? "active" : ""}" id="${entry.id}">
+          <h3>${escapeHtml(entry.term)}</h3>
+          <p>${escapeHtml(entry.definition)}</p>
+        </article>
+      `).join("") : `
+        <div class="glossary-empty">Kein Fachwort gefunden. Probiere Roux, HACCP, Julienne, Fond oder Garverlust.</div>
+      `;
+    }
+
+    function openGlossaryTerm(id) {
+      state.activeGlossary = id;
+      state.glossaryQuery = "";
+      glossarySearch.value = "";
+      renderGlossary();
+      const glossarySection = document.getElementById("fachwoerter");
+      const target = document.getElementById(id);
+      glossarySection.scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(() => {
+        const refreshedTarget = document.getElementById(id) || target;
+        if (refreshedTarget) refreshedTarget.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 220);
+    }
+
+    function updateCardPool() {
+      const selected = cardCategory.value || "alle";
+      state.cardPool = selected === "alle" ? flashcards : flashcards.filter(([category]) => category === selected);
+      if (!state.cardPool.length) state.cardPool = flashcards;
+      state.cardIndex = Math.floor(Math.random() * state.cardPool.length);
+      renderCard();
+    }
+
+    function renderCard() {
+      flashCard.classList.remove("flipped");
+      const [categoryId, question, answer] = state.cardPool[state.cardIndex];
+      const category = categories.find((item) => item.id === categoryId);
+      frontLabel.textContent = `Frage · ${category ? category.name : "Alle"}`;
+      cardQuestion.textContent = question;
+      cardAnswer.textContent = answer;
+    }
+
+    function nextCard() {
+      if (state.cardPool.length < 2) {
+        renderCard();
+        return;
+      }
+      let next = state.cardIndex;
+      while (next === state.cardIndex) {
+        next = Math.floor(Math.random() * state.cardPool.length);
+      }
+      state.cardIndex = next;
+      renderCard();
+    }
+
+    function setCategory(categoryId) {
+      if (categoryId === "karten") {
+        document.getElementById("karten").scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+      if (categoryId === "fachwoerter") {
+        document.getElementById("fachwoerter").scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+      state.activeCategory = categoryId;
+      renderNavigation();
+      renderContent();
+      const target = categoryId === "alle" ? document.querySelector(".content-stream") : document.getElementById(categoryId);
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function setSearchOpen(open) {
+      headerSearch.classList.toggle("open", open);
+      searchToggle.setAttribute("aria-expanded", String(open));
+      searchToggle.setAttribute("aria-label", open ? "Suche schliessen" : "Suche oeffnen");
+      if (open) searchInput.focus();
+    }
+
+    function init() {
+      cardCategory.innerHTML = `<option value="alle">Alle Kategorien</option>` + categories.map((category) => `<option value="${category.id}">${escapeHtml(category.name)}</option>`).join("");
+      renderNavigation();
+      renderContent();
+      renderGlossary();
+      updateCardPool();
+
+      searchInput.addEventListener("input", (event) => {
+        state.query = event.target.value;
+        if (state.query.trim()) {
+          state.activeCategory = "alle";
+          renderNavigation();
+        }
+        renderContent();
+      });
+
+      searchToggle.addEventListener("click", () => {
+        setSearchOpen(!headerSearch.classList.contains("open"));
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") setSearchOpen(false);
+      });
+
+      document.addEventListener("click", (event) => {
+        if (event.target.closest(".header-actions")) return;
+        setSearchOpen(false);
+      });
+
+      topNav.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-nav]");
+        if (!button) return;
+        setCategory(button.dataset.nav);
+      });
+
+      contentEl.addEventListener("click", (event) => {
+        const term = event.target.closest("[data-glossary]");
+        if (!term) return;
+        event.preventDefault();
+        openGlossaryTerm(term.dataset.glossary);
+      });
+
+      glossarySearch.addEventListener("input", (event) => {
+        state.glossaryQuery = event.target.value;
+        state.activeGlossary = "";
+        renderGlossary();
+      });
+
+      clearGlossaryHighlight.addEventListener("click", () => {
+        state.activeGlossary = "";
+        state.glossaryQuery = "";
+        glossarySearch.value = "";
+        renderGlossary();
+      });
+
+      document.getElementById("menuToggle").addEventListener("click", () => {
+        topNav.classList.toggle("open");
+      });
+
+      document.getElementById("shuffleCard").addEventListener("click", nextCard);
+      document.getElementById("flipCard").addEventListener("click", () => flashCard.classList.toggle("flipped"));
+      cardCategory.addEventListener("change", updateCardPool);
+      flashCard.addEventListener("click", () => flashCard.classList.toggle("flipped"));
+      flashCard.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          flashCard.classList.toggle("flipped");
+        }
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>
